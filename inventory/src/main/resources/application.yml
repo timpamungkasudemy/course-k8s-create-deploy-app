@@ -1,0 +1,7 @@
+spring:
+  main:
+    banner-mode: OFF
+
+server:
+  port: 8880
+      
