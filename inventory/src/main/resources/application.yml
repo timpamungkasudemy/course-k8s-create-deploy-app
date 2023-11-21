@@ -1,7 +1,5 @@
 spring:
   main:
     banner-mode: OFF
-
-server:
-  port: 8880
+    web-application-type: none
       

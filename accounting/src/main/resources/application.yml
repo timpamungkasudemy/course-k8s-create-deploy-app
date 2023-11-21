@@ -1,0 +1,16 @@
+spring:
+  main:
+    banner-mode: OFF
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: mypassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  flyway:
+    baseline-on-migrate: true
+
+server:
+  port: 8881
