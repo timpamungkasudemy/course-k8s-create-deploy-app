@@ -3,3 +3,7 @@ spring:
     banner-mode: OFF
     web-application-type: none
       
+setting:
+  inventory:
+    report:
+      path: ${INVENTORY_REPORT_PATH}
