@@ -8,11 +8,11 @@ from payment_tax_rate_data import create_table_tax_rates, insert_tax_rates_data
 app = Flask(__name__)
 
 db_config = {
-    'dbname': os.getenv('DB_NAME', 'postgres'),
-    'user': os.getenv('DB_USER', 'postgres'),
-    'password': os.getenv('DB_PASSWORD', 'mypassword'),
-    'host': os.getenv('DB_HOST', 'localhost'),
-    'port': int(os.getenv('DB_PORT', 5432)),
+    'dbname': os.getenv('PAYMENT_DATABASE_NAME', 'postgres'),
+    'user': os.getenv('PAYMENT_DATABASE_USERNAME', 'postgres'),
+    'password': os.getenv('PAYMENT_DATABASE_PASSWORD', 'mypassword'),
+    'host': os.getenv('PAYMENT_DATABASE_HOST', 'localhost'),
+    'port': int(os.getenv('PAYMENT_DATABASE_PORT', 5432)),
 }
 
 def create_db_connection():
