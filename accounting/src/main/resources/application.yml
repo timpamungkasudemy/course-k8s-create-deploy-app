@@ -2,12 +2,12 @@ spring:
   main:
     banner-mode: OFF
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: mypassword
+    url: ${ACCOUNTING_DATABASE_URL}
+    username: ${ACCOUNTING_DATABASE_USERNAME}
+    password: ${ACCOUNTING_DATABASE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   flyway:
     baseline-on-migrate: true

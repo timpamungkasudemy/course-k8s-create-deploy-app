@@ -3,11 +3,11 @@ import os
 from uuid import uuid4
 
 db_config = {
-    'dbname': os.getenv('DB_NAME', 'postgres'),
-    'user': os.getenv('DB_USER', 'postgres'),
-    'password': os.getenv('DB_PASSWORD', 'mypassword'),
-    'host': os.getenv('DB_HOST', 'localhost'),
-    'port': int(os.getenv('DB_PORT', 5432)),
+    'dbname': os.getenv('PAYMENT_DATABASE_NAME', 'postgres'),
+    'user': os.getenv('PAYMENT_DATABASE_USERNAME', 'postgres'),
+    'password': os.getenv('PAYMENT_DATABASE_PASSWORD', 'mypassword'),
+    'host': os.getenv('PAYMENT_DATABASE_HOST', 'localhost'),
+    'port': int(os.getenv('PAYMENT_DATABASE_PORT', 5432)),
 }
 
 tax_rates_data = [
