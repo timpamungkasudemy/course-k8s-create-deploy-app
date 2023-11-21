@@ -14,3 +14,9 @@ spring:
 
 server:
   port: 8881
+  
+setting:
+  accounting:
+    dashboard:
+      url: ${ACCOUNTING_DASHBOARD_URL}
+      status: ${ACCOUNTING_DASHBOARD_STATUS}
