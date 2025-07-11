@@ -2,7 +2,6 @@ package com.alphamart.accounting.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +30,7 @@ public class ChartOfAccountRestController {
 	}
 
 	@GetMapping("/{coaId}")
-	public Optional<ChartOfAccount> getChartOfAccountById(@PathVariable UUID coaId) {
+	public Optional<ChartOfAccount> getChartOfAccountById(@PathVariable String coaId) {
 		return service.getChartOfAccountById(coaId);
 	}
 
@@ -51,13 +50,13 @@ public class ChartOfAccountRestController {
 	}
 
 	@PutMapping("/{coaId}")
-	public ChartOfAccount updateChartOfAccount(@PathVariable UUID coaId,
+	public ChartOfAccount updateChartOfAccount(@PathVariable String coaId,
 			@RequestBody ChartOfAccount updatedChartOfAccount) {
 		return service.updateChartOfAccount(coaId, updatedChartOfAccount);
 	}
 
 	@DeleteMapping("/{coaId}")
-	public void deleteChartOfAccount(@PathVariable UUID coaId) {
+	public void deleteChartOfAccount(@PathVariable String coaId) {
 		service.deleteChartOfAccount(coaId);
 	}
 }

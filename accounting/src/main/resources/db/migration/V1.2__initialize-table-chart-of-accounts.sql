@@ -1,59 +1,59 @@
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10004', '70910001');
+	('coa-001', '001', '10004', '70910001');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10004', '70910002');
+	('coa-002', '001', '10004', '70910002');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10004', '70910003');
+	('coa-003', '001', '10004', '70910003');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10004', '70910004');
+	('coa-004', '001', '10004', '70910004');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10004', '70910005');
+	('coa-005', '001', '10004', '70910005');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10005', '81210016');
+	('coa-006', '001', '10005', '81210016');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10005', '81210017');
+	('coa-007', '001', '10005', '81210017');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10005', '81210018');
+	('coa-008', '001', '10005', '81210018');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10005', '81210019');
+	('coa-009', '001', '10005', '81210019');
 	
 	
-INSERT INTO public.chart_of_accounts
+INSERT INTO chart_of_accounts
 	(coa_id, company, cost_center, natural_account)
 VALUES
-	(gen_random_uuid(), '001', '10005', '81210020');
+	('coa-010', '001', '10005', '81210020');
 

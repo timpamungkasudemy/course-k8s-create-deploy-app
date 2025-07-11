@@ -2,7 +2,6 @@ package com.alphamart.accounting.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class ChartOfAccountService {
 		return repository.findAll();
 	}
 
-	public Optional<ChartOfAccount> getChartOfAccountById(UUID coaId) {
+	public Optional<ChartOfAccount> getChartOfAccountById(String coaId) {
 		return repository.findById(coaId);
 	}
 
@@ -36,7 +35,7 @@ public class ChartOfAccountService {
 		return repository.save(chartOfAccount);
 	}
 
-	public ChartOfAccount updateChartOfAccount(UUID coaId, ChartOfAccount updatedChartOfAccount) {
+	public ChartOfAccount updateChartOfAccount(String coaId, ChartOfAccount updatedChartOfAccount) {
 		if (repository.existsById(coaId)) {
 			updatedChartOfAccount.setCoaId(coaId);
 			return repository.save(updatedChartOfAccount);
@@ -45,7 +44,7 @@ public class ChartOfAccountService {
 		}
 	}
 
-	public void deleteChartOfAccount(UUID coaId) {
+	public void deleteChartOfAccount(String coaId) {
 		repository.deleteById(coaId);
 	}
 }

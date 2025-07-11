@@ -1,14 +1,9 @@
-import psycopg2
+import duckdb
 import os
 from uuid import uuid4
 
-db_config = {
-    'dbname': os.getenv('PAYMENT_DATABASE_NAME', 'postgres'),
-    'user': os.getenv('PAYMENT_DATABASE_USERNAME', 'postgres'),
-    'password': os.getenv('PAYMENT_DATABASE_PASSWORD', 'mysecretpassword'),
-    'host': os.getenv('PAYMENT_DATABASE_HOST', 'localhost'),
-    'port': int(os.getenv('PAYMENT_DATABASE_PORT', 5432)),
-}
+# DuckDB database file path
+db_path = os.getenv('PAYMENT_DATABASE_PATH', 'payment.duckdb')
 
 tax_rates_data = [
     {'invoice_amount_min': 0, 'invoice_amount_max': 1000, 'tax_rate': 0.05},
@@ -17,32 +12,29 @@ tax_rates_data = [
 ]
 
 def create_table_tax_rates():
-    connection = psycopg2.connect(**db_config)
-    cursor = connection.cursor()
-
+    connection = duckdb.connect(db_path)
+    
     try:
-        cursor.execute("""
+        connection.execute("""
             CREATE TABLE IF NOT EXISTS tax_rates (
-                tax_rate_id UUID NOT NULL PRIMARY KEY,
-                invoice_amount_min DOUBLE PRECISION,
-                invoice_amount_max DOUBLE PRECISION,
-                tax_rate DOUBLE PRECISION
+                tax_rate_id VARCHAR PRIMARY KEY,
+                invoice_amount_min DOUBLE,
+                invoice_amount_max DOUBLE,
+                tax_rate DOUBLE
             )
         """)
-        connection.commit()
         print("Table created successfully!")
     except Exception as e:
         print(f"Error creating table: {str(e)}")
     finally:
-        cursor.close()
         connection.close()
 
 def insert_tax_rates_data():
-    connection = psycopg2.connect(**db_config)
-    cursor = connection.cursor()
-
+    connection = duckdb.connect(db_path)
+    
     try:
-        cursor.execute("TRUNCATE TABLE tax_rates RESTART IDENTITY CASCADE")
+        # Clear existing data
+        connection.execute("DELETE FROM tax_rates")
 
         for data in tax_rates_data:
             tax_rate_id = str(uuid4())  
@@ -50,15 +42,13 @@ def insert_tax_rates_data():
             invoice_amount_max = data.get('invoice_amount_max')
             tax_rate = data.get('tax_rate')
 
-            cursor.execute("""
+            connection.execute("""
                 INSERT INTO tax_rates (tax_rate_id, invoice_amount_min, invoice_amount_max, tax_rate)
-                VALUES (%s, %s, %s, %s)
+                VALUES (?, ?, ?, ?)
             """, (tax_rate_id, invoice_amount_min, invoice_amount_max, tax_rate))
 
-        connection.commit()
         print("Data inserted successfully!")
     except Exception as e:
         print(f"Error inserting data: {str(e)}")
     finally:
-        cursor.close()
         connection.close()

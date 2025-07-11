@@ -2,15 +2,15 @@ spring:
   main:
     banner-mode: OFF
   datasource:
-    url: ${ACCOUNTING_DATABASE_URL}
-    username: ${ACCOUNTING_DATABASE_USERNAME}
-    password: ${ACCOUNTING_DATABASE_PASSWORD}
+    url: jdbc:duckdb:accounting.db
+    driver-class-name: org.duckdb.DuckDBDriver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
   flyway:
-    baseline-on-migrate: true
+    enabled: false
 
 server:
   port: 8881
@@ -18,5 +18,5 @@ server:
 setting:
   accounting:
     dashboard:
-      url: ${ACCOUNTING_DASHBOARD_URL}
-      status: ${ACCOUNTING_DASHBOARD_STATUS}
+      url: ${ACCOUNTING_DASHBOARD_URL:http://localhost:8881}
+      status: ${ACCOUNTING_DASHBOARD_STATUS:ACTIVE}
