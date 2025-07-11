@@ -6,4 +6,4 @@ spring:
 setting:
   inventory:
     report:
-      path: ${INVENTORY_REPORT_PATH}
+      path: ${INVENTORY_REPORT_PATH:./usr/reports/}
