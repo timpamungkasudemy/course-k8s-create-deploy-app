@@ -2,7 +2,7 @@ spring:
   main:
     banner-mode: OFF
   datasource:
-    url: jdbc:duckdb:accounting.db
+    url: ${ACCOUNTING_DATABASE_URL:jdbc:duckdb:accounting.db}
     driver-class-name: org.duckdb.DuckDBDriver
   jpa:
     hibernate:
