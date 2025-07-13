@@ -1,16 +1,17 @@
 import os
-import duckdb
+import sqlite3
 from flask import Flask, jsonify
 from datetime import datetime
 from payment_tax_rate_data import create_table_tax_rates, insert_tax_rates_data
 
 app = Flask(__name__)
 
-# DuckDB database file path
-db_path = os.getenv('PAYMENT_DATABASE_PATH', 'payment.duckdb')
+# SQLite database file path (use 'payment.db' for persistent or ':memory:' for in-memory database)
+db_path = os.getenv('PAYMENT_DATABASE_PATH', 'payment.db')
 
 def create_db_connection():
-    connection = duckdb.connect(db_path)
+    connection = sqlite3.connect(db_path)
+    connection.row_factory = sqlite3.Row  # This enables column access by name
     return connection
 
 @app.route('/api/current_time', methods=['GET'])
@@ -27,11 +28,13 @@ def get_payment_application():
 @app.route('/api/tax_rates', methods=['GET'])
 def get_tax_rates():
     connection = create_db_connection()
+    cursor = connection.cursor()
 
     try:
-        result = connection.execute("SELECT invoice_amount_min, invoice_amount_max, tax_rate FROM tax_rates").fetchall()
+        cursor.execute("SELECT invoice_amount_min, invoice_amount_max, tax_rate FROM tax_rates")
+        result = cursor.fetchall()
         
-        # Convert tuples to dictionaries
+        # Convert rows to dictionaries
         tax_rates_data = []
         for row in result:
             tax_rates_data.append({
@@ -44,4 +47,5 @@ def get_tax_rates():
     except Exception as e:
         return jsonify({"error": str(e)})
     finally:
+        cursor.close()
         connection.close()
