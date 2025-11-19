@@ -1,14 +1,9 @@
-import psycopg2
+import sqlite3
 import os
 from uuid import uuid4
 
-db_config = {
-    'dbname': os.getenv('PAYMENT_DATABASE_NAME', 'postgres'),
-    'user': os.getenv('PAYMENT_DATABASE_USERNAME', 'postgres'),
-    'password': os.getenv('PAYMENT_DATABASE_PASSWORD', 'mysecretpassword'),
-    'host': os.getenv('PAYMENT_DATABASE_HOST', 'localhost'),
-    'port': int(os.getenv('PAYMENT_DATABASE_PORT', 5432)),
-}
+# SQLite database file path (use 'payment.db' for persistent or ':memory:' for in-memory database)
+db_path = os.getenv('PAYMENT_DATABASE_PATH', 'payment.db')
 
 tax_rates_data = [
     {'invoice_amount_min': 0, 'invoice_amount_max': 1000, 'tax_rate': 0.05},
@@ -17,16 +12,16 @@ tax_rates_data = [
 ]
 
 def create_table_tax_rates():
-    connection = psycopg2.connect(**db_config)
+    connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
-
+    
     try:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS tax_rates (
-                tax_rate_id UUID NOT NULL PRIMARY KEY,
-                invoice_amount_min DOUBLE PRECISION,
-                invoice_amount_max DOUBLE PRECISION,
-                tax_rate DOUBLE PRECISION
+                tax_rate_id TEXT PRIMARY KEY,
+                invoice_amount_min REAL,
+                invoice_amount_max REAL,
+                tax_rate REAL
             )
         """)
         connection.commit()
@@ -38,11 +33,12 @@ def create_table_tax_rates():
         connection.close()
 
 def insert_tax_rates_data():
-    connection = psycopg2.connect(**db_config)
+    connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
-
+    
     try:
-        cursor.execute("TRUNCATE TABLE tax_rates RESTART IDENTITY CASCADE")
+        # Clear existing data
+        cursor.execute("DELETE FROM tax_rates")
 
         for data in tax_rates_data:
             tax_rate_id = str(uuid4())  
@@ -52,7 +48,7 @@ def insert_tax_rates_data():
 
             cursor.execute("""
                 INSERT INTO tax_rates (tax_rate_id, invoice_amount_min, invoice_amount_max, tax_rate)
-                VALUES (%s, %s, %s, %s)
+                VALUES (?, ?, ?, ?)
             """, (tax_rate_id, invoice_amount_min, invoice_amount_max, tax_rate))
 
         connection.commit()

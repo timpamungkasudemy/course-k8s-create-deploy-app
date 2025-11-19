@@ -1,11 +1,10 @@
 package com.alphamart.accounting.database;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ChartOfAccountRepository extends JpaRepository<ChartOfAccount, UUID> {
+public interface ChartOfAccountRepository extends JpaRepository<ChartOfAccount, String> {
 
 	List<ChartOfAccount> findByCostCenter(String costCenter);
 

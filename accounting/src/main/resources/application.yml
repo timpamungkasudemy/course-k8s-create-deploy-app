@@ -2,15 +2,21 @@ spring:
   main:
     banner-mode: OFF
   datasource:
-    url: ${ACCOUNTING_DATABASE_URL}
-    username: ${ACCOUNTING_DATABASE_USERNAME}
-    password: ${ACCOUNTING_DATABASE_PASSWORD}
+    url: ${ACCOUNTING_DATABASE_URL:jdbc:h2:mem:accounting;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
   flyway:
-    baseline-on-migrate: true
+    enabled: false
 
 server:
   port: 8881
@@ -18,5 +24,5 @@ server:
 setting:
   accounting:
     dashboard:
-      url: ${ACCOUNTING_DASHBOARD_URL}
-      status: ${ACCOUNTING_DASHBOARD_STATUS}
+      url: ${ACCOUNTING_DASHBOARD_URL:http://localhost:8881}
+      status: ${ACCOUNTING_DASHBOARD_STATUS:ACTIVE}

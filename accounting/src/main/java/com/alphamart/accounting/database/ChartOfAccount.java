@@ -1,11 +1,8 @@
 package com.alphamart.accounting.database;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -14,8 +11,7 @@ import jakarta.persistence.Table;
 public class ChartOfAccount {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID coaId;
+	private String coaId;
 
 	private String company;
 
@@ -23,11 +19,11 @@ public class ChartOfAccount {
 
 	private String naturalAccount;
 
-	public UUID getCoaId() {
+	public String getCoaId() {
 		return coaId;
 	}
 
-	public void setCoaId(UUID coaId) {
+	public void setCoaId(String coaId) {
 		this.coaId = coaId;
 	}
 

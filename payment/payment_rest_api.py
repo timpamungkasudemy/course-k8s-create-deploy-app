@@ -1,22 +1,17 @@
 import os
-import psycopg2
-from psycopg2 import extras
+import sqlite3
 from flask import Flask, jsonify
 from datetime import datetime
 from payment_tax_rate_data import create_table_tax_rates, insert_tax_rates_data
 
 app = Flask(__name__)
 
-db_config = {
-    'dbname': os.getenv('PAYMENT_DATABASE_NAME', 'postgres'),
-    'user': os.getenv('PAYMENT_DATABASE_USERNAME', 'postgres'),
-    'password': os.getenv('PAYMENT_DATABASE_PASSWORD', 'mysecretpassword'),
-    'host': os.getenv('PAYMENT_DATABASE_HOST', 'localhost'),
-    'port': int(os.getenv('PAYMENT_DATABASE_PORT', 5432)),
-}
+# SQLite database file path (use 'payment.db' for persistent or ':memory:' for in-memory database)
+db_path = os.getenv('PAYMENT_DATABASE_PATH', 'payment.db')
 
 def create_db_connection():
-    connection = psycopg2.connect(**db_config)
+    connection = sqlite3.connect(db_path)
+    connection.row_factory = sqlite3.Row  # This enables column access by name
     return connection
 
 @app.route('/api/current_time', methods=['GET'])
@@ -33,11 +28,20 @@ def get_payment_application():
 @app.route('/api/tax_rates', methods=['GET'])
 def get_tax_rates():
     connection = create_db_connection()
-    cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor = connection.cursor()
 
     try:
         cursor.execute("SELECT invoice_amount_min, invoice_amount_max, tax_rate FROM tax_rates")
-        tax_rates_data = cursor.fetchall()
+        result = cursor.fetchall()
+        
+        # Convert rows to dictionaries
+        tax_rates_data = []
+        for row in result:
+            tax_rates_data.append({
+                'invoice_amount_min': row[0],
+                'invoice_amount_max': row[1],
+                'tax_rate': row[2]
+            })
 
         return jsonify({"tax_rates": tax_rates_data})
     except Exception as e:
